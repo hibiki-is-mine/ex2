@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+	
+	<div id="show">
+    <script src="js/pixi.min.js"></script>
+    <script>
+		var app = new PIXI.Application(800,600);
+        document.body.appendChild(app.view);
+   		
+        var bg_guarden = new PIXI.Sprite.fromImage("res/background1unsodded.png");
+        var grass = new PIXI.Sprite.fromImage("res/sod1row.png");
+        var sodroll = new PIXI.Sprite.fromImage("res/SodRoll.png");
+        var SodRollCap = new PIXI.Sprite.fromImage("res/SodRollCap.png");
+        var SeedBank = new PIXI.Sprite.fromImage("res/SeedBank.png")
+        var Larger_Pea = new PIXI.Sprite.fromImage("res/SeedPacket_Larger_Pea.png");
+        var Larger_Pea_Black = new PIXI.Sprite.fromImage("res/SeedPacket_Larger_Pea_Selected.png");
+        var PeaShooter = new PIXI.Sprite.fromImage("res/PeaShooter.png");
+        var PeaShooter_alpha = new PIXI.Sprite.fromImage("res/PeaShooter.png");
+        var ready=new PIXI.Sprite.fromImage("res/StartReady.png");
+        var set=new PIXI.Sprite.fromImage("res/StartSet.png");
+       	var Plant=new PIXI.Sprite.fromImage("res/StartPlant.png");
+        
+        
+        const evillaugh = new Audio("res/sound/evillaugh.ogg");
+        const title = new Audio("res/sound/title.mp3");
+        const day = new Audio("res/sound/day.mp3");
+        const Select = new Audio("res/sound/select.mp3");
+        const readysetplant = new Audio("res/sound/readysetplant.ogg");
+       // m.play();
+        //m.pause();
+        
+        
+        app.stage.addChild(bg_guarden);
+        app.stage.addChild(grass);
+        app.stage.addChild(SeedBank);
+        app.stage.addChild(sodroll);
+        app.stage.addChild(PeaShooter_alpha);
+        app.stage.addChild(PeaShooter);
+        sodroll.addChild(SodRollCap);
+        SeedBank.addChild(Larger_Pea_Black);
+        SeedBank.addChild(Larger_Pea);
+        
+        var SelectorScreen_back= new PIXI.Sprite.fromImage("res/SelectorScreen_back.png");
+        var SelectorScreen_left= new PIXI.Sprite.fromImage("res/SelectorScreen_left.png");
+        var SelectorScreen_front= new PIXI.Sprite.fromImage("res/SelectorScreen_front.png");
+        var SelectorScreen_bg= new PIXI.Sprite.fromImage("res/SelectorScreen_bg.png");
+        var StartAdventure= new PIXI.Sprite.fromImage("res/SelectorScreen_StartAdventure_Button1.png");
+        var SelectorScreen_earth= new PIXI.Sprite.fromImage("res/SelectorScreen_earth.png");
+        var Zombie_hand= new PIXI.Sprite.fromImage("res/Zombie_hand.png");
+        var Zombie_hand_rock = new PIXI.Sprite.fromImage("res/Zombie_hand_rock.png");
+       
+        
+        
+        
+        
+        
+        
+        var titlescreen= new PIXI.Sprite.fromImage("res/titlescreen.jpg");
+        var LoadBar_dirt= new PIXI.Sprite.fromImage("res/LoadBar_dirt.png");
+        var LoadBar_grass= new PIXI.Sprite.fromImage("res/LoadBar_grass.png");
+        var PvZ_Logo = new PIXI.Sprite.fromImage("res/PvZ_Logo.png");
+        var LoadBar_RollCap = new PIXI.Sprite.fromImage("res/SodRollCap.png");
+        var Click_To_Start = new PIXI.Sprite.fromImage("res/CLICK TO START.png");
+        
+        app.stage.addChild(titlescreen);
+        app.stage.addChild(LoadBar_dirt);
+        LoadBar_dirt.addChild(LoadBar_grass);
+        LoadBar_dirt.addChild(LoadBar_RollCap);
+        LoadBar_dirt.addChild(Click_To_Start);
+        app.stage.addChild(PvZ_Logo);
+        
+        var bg_black= new PIXI.Sprite.fromImage("res/bg.png");
+        var PopCap_Logo = new PIXI.Sprite.fromImage("res/PopCap_Logo.png");
+        
+        app.stage.addChild(bg_black);
+        app.stage.addChild(PopCap_Logo);
+        
+        var a=0;
+        var n=0;
+        function Logo(){
+        	
+        	bg_black.visible=true;
+        	PopCap_Logo.anchor.x=0.5;
+        	PopCap_Logo.anchor.y=0.5;
+        	PopCap_Logo.x=400;
+        	PopCap_Logo.y=300;
+        	PopCap_Logo.alpha=0;
+        }
+        
+		function title_screen(){
+			PvZ_Logo.anchor.x=0.5;
+			PvZ_Logo.x=400;
+			PvZ_Logo.y=-200;
+			
+			LoadBar_dirt.anchor.x=0.5;
+			LoadBar_dirt.x=400;
+			LoadBar_dirt.y=500;
+			
+			LoadBar_grass.y=-15;
+			LoadBar_grass.x=-165;
+			LoadBar_grass.width=0;
+			
+			LoadBar_RollCap.anchor.x=0.5;
+			LoadBar_RollCap.anchor.y=0.5;
+			LoadBar_RollCap.y=-20;
+			LoadBar_RollCap.x=-150;
+			
+			Click_To_Start.anchor.x=0.5;
+			Click_To_Start.scale.x=0.8;
+			Click_To_Start.scale.y=0.7;
+			Click_To_Start.y=13;
+			Click_To_Start.visible=false;
+			
+
+		}
+		
+		
+        function title_screen_load(){
+        	if(PvZ_Logo.y<50)PvZ_Logo.y+=2;
+        	LoadBar_grass.width+=16/9;
+        	LoadBar_RollCap.x+=5/3;
+        	LoadBar_RollCap.y+=0.1;
+        	LoadBar_RollCap.rotation+=0.04;
+        	LoadBar_RollCap.scale.x-=1/300;
+        	LoadBar_RollCap.scale.y-=1/300;
+        	
+        }
+        
+        function remove_title(){
+        	app.stage.removeChild(titlescreen);
+        	app.stage.removeChild(LoadBar_dirt);
+        	app.stage.removeChild(LoadBar_grass);
+        	app.stage.removeChild(LoadBar_RollCap);
+        	app.stage.removeChild(Click_To_Start);
+        	app.stage.removeChild(PvZ_Logo);
+        	
+        	app.stage.addChild(SelectorScreen_bg);
+       		app.stage.addChild(SelectorScreen_back);
+        	app.stage.addChild(SelectorScreen_left);
+       		app.stage.addChild(SelectorScreen_front);
+        	app.stage.addChild(Zombie_hand);
+        	app.stage.addChild(SelectorScreen_earth);
+        	SelectorScreen_earth.addChild(Zombie_hand_rock);
+        	SelectorScreen_front.addChild(StartAdventure);
+        }
+        
+        Click_To_Start.interactive=true;
+        Click_To_Start.on("click",enter_SelectorScreen);
+        
+        var Enter=0;
+        
+        function enter_SelectorScreen(){
+        	remove_title();
+
+        	SelectorScreen_back.y=30;
+        	SelectorScreen_left.y=0;
+        	SelectorScreen_front.y=200;
+        	StartAdventure.x=410;
+        	StartAdventure.y=70;
+        	
+        	SelectorScreen_earth.anchor.x=1;
+        	SelectorScreen_earth.anchor.y=1;
+        	SelectorScreen_earth.x=800;
+        	SelectorScreen_earth.y=600;
+        	SelectorScreen_earth.visible=false;
+        	
+        	Zombie_hand.visible=false;
+        	Zombie_hand_rock.anchor.x=0.5;
+        	Zombie_hand_rock.anchor.y=0.5;
+        	Zombie_hand_rock.x=-430;
+        	Zombie_hand_rock.y=-50;
+        	Zombie_hand_rock.height=0;
+        	Zombie_hand_rock.width=0;
+        	Enter=1;
+        	title.play();
+        }
+        
+        StartAdventure.interactive=true;
+        StartAdventure.on("click",start_game);
+        function start_game(){
+        	title.pause();
+        	evillaugh.play();
+        	SelectorScreen_earth.visible=true;
+        	Zombie_hand.visible=true;
+        	Zombie_hand.x=230;
+        	Zombie_hand.y=600;
+        	Enter=2;
+        	StartAdventure.interactive=false;
+        }
+        
+        function remove_selector(){
+        	app.stage.removeChild(SelectorScreen_back);
+        	app.stage.removeChild(SelectorScreen_left);
+        	app.stage.removeChild(SelectorScreen_front);
+        	app.stage.removeChild(SelectorScreen_bg);
+        	app.stage.removeChild(StartAdventure);
+        	app.stage.removeChild(SelectorScreen_earth);
+        	app.stage.removeChild(Zombie_hand);
+        	app.stage.removeChild(Zombie_hand_rock);
+        }
+        var Zom_in=[];
+        var num=4;
+        var sun_num= new PIXI.Text(num*25);
+        sun_num.style.fill=	0x000000;
+        
+        function bg_initialization(){
+        	bg_guarden.x=0;
+        	
+        	Larger_Pea_Black.visible=false;
+        	Larger_Pea.visible=false;
+        	
+        	PeaShooter.visible=false;
+        	PeaShooter_alpha.visible=false;
+        	
+        	SeedBank.visible=false;
+        	
+        	ready.visible=false;
+        	set.visible=false;
+        	Plant.visible=false;
+        	
+        	app.stage.addChild(ready);
+        	app.stage.addChild(set);
+        	app.stage.addChild(Plant);
+        	
+        	zombie_initialization();
+        	
+        }
+        function zombie_initialization(){
+        	
+        	for(var i=0;i<4;i++){
+        		var Zombie= new PIXI.Sprite.fromImage("res/Zombie_move/Z0.png");
+        		Zombie.anchor.set(0.5,0.5);
+        		Zombie.x=1100+Math.random()*150;
+        		Zombie.y=100+Math.random()*500;
+        		
+        		bg_guarden.addChild(Zombie);
+        		
+        		Zom_in.push(Zombie);
+        	}
+        }
+        function begin(){
+			Larger_Pea.visible=true;
+			Larger_Pea.x=85;
+			Larger_Pea.y=7;
+			Larger_Pea.scale.x=0.50;
+			Larger_Pea.scale.y=0.50;
+
+			Larger_Pea_Black.x=85;
+			Larger_Pea_Black.y=7;
+			Larger_Pea_Black.scale.x=0.50;
+			Larger_Pea_Black.scale.y=0.50;
+			
+			
+			
+        	SeedBank.visible=true;
+        	SeedBank.addChild(sun_num);
+        	
+        	
+        	sun_num.anchor.x=0.5;
+        	sun_num.x=40;
+        	sun_num.y=62;
+        	sun_num.scale.x=0.8;
+        	sun_num.scale.y=0.8;
+        }
+        
+        Larger_Pea.interactive=true;
+        Larger_Pea.on("click",select);
+        function select(event){
+        	if(num>=4){
+        	Larger_Pea_Black.visible=true;
+        	Larger_Pea.visible=false;
+			PeaShooter.visible=true;
+			
+			PeaShooter.scale.x=0.6;
+        	PeaShooter.scale.y=0.6;
+        	PeaShooter.anchor.x=0.5;
+        	PeaShooter.anchor.y=0.5;
+        	
+        	var pos =event.data.getLocalPosition(app.stage);
+        	
+        	PeaShooter.x=pos.x;
+        	PeaShooter.y=pos.y;
+        	
+        	
+        	PeaShooter.interactive=true;
+        	}
+
+        }
+        function sun_number(){
+        	sun_num.text=(num*25);
+        	if(num==0){
+        		sun_num.text=("0");
+        	}
+        	if(num<4){
+        		Larger_Pea_Black.visible=true;
+        		Larger_Pea.visible=false;
+        	}
+        }
+
+        
+        PeaShooter.on("mousemove",selected)
+        function selected(event){
+        	var pos =event.data.getLocalPosition(app.stage);
+        	
+        	PeaShooter.x=pos.x;
+        	PeaShooter.y=pos.y;
+        	ready_plant();
+        }
+        var plant_list=[];
+        
+        var x=[40,120,200,280,360,435,520,590,680,765];
+ 		var y=[270,360];
+ 			
+        PeaShooter.on("click",plant);
+        function plant(event){
+        	
+        	var pos =event.data.getLocalPosition(app.stage);
+        	for(var i=0;i<10;i++){
+ 				if(PeaShooter.y>y[0]&&PeaShooter.y<y[1]){
+ 					if (PeaShooter.x>x[i]&&PeaShooter.x<x[i+1]){
+ 						var PeaShooter_List=[];
+ 						for(var k=0;k<=9;k++){
+ 							PeaShooter_List.push("res/Pea/Pea"+k+".png");
+ 							
+ 						}
+ 						var PeaShooter_P =  PIXI.extras.AnimatedSprite.fromImages(PeaShooter_List);
+ 						
+ 						
+ 						PeaShooter_P.scale.x=1;
+ 						PeaShooter_P.scale.y=1;
+ 						PeaShooter_P.anchor.x=0.5;
+ 						PeaShooter_P.anchor.y=0.5;
+	
+ 						PeaShooter_P.x=(x[i]+x[i+1])/2;
+ 						//console.log(PeaShooter_P.x);
+ 						PeaShooter_P.y=(y[0]+y[1])/2;
+ 						//console.log(PeaShooter_P.y);
+ 						app.stage.addChild(PeaShooter_P);
+ 						
+ 						PeaShooter_P.visible=true;
+ 						
+ 						
+ 						PeaShooter_P.animationSpeed = 0.12;
+ 						PeaShooter_P.play();
+ 						
+ 						
+ 						PeaShooter.visible=false;
+ 						
+ 						//console.log("p");
+ 						num-=4;
+ 						plant_list.push(PeaShooter_P);
+ 						PeaShooter_alpha.visible=false;
+ 					}
+ 					
+ 				}
+
+ 			}
+        }
+        function reset(){
+        	if(num>=4)Larger_Pea.visible=true;
+        }
+        
+ 		function ready_plant(){
+ 			
+ 			for(var i=0;i<10;i++){
+ 				if(PeaShooter.y>y[0]&&PeaShooter.y<y[1]){
+ 					if (PeaShooter.x>x[i]&&PeaShooter.x<x[i+1]){
+ 						PeaShooter_alpha.visible=true;
+ 						PeaShooter_alpha.alpha=0.5;
+ 						PeaShooter_alpha.scale.x=0.6;
+ 						PeaShooter_alpha.scale.y=0.6;
+ 						PeaShooter_alpha.anchor.x=0.5;
+ 						PeaShooter_alpha.anchor.y=0.5;
+	
+ 						PeaShooter_alpha.x=(x[i]+x[i+1])/2;
+ 						PeaShooter_alpha.y=(y[0]+y[1])/2;
+ 				}
+ 		
+ 				}else PeaShooter_alpha.visible=false;
+ 			}
+ 		}
+ 		var t=0;
+ 		var Sun_List=[];
+ 		function sun_fall(){
+ 			
+ 			
+ 			if(n<4&&t==720){
+ 				var Sun=[];
+ 				for(var i=0;i<=21;i++){
+    			Sun.push("res/Sun/sun"+i+".png");
+ 				}
+ 				var sun=PIXI.extras.AnimatedSprite.fromImages(Sun);
+ 				sun.anchor.set(0.5,0.5);
+ 				sun.x = 100+Math.random() * 600;
+ 				app.stage.addChild(sun);
+ 				sun.animationSpeed = 0.5;
+ 				sun.play();
+ 				
+ 				sun.interactive=true;
+ 				sun.on("click",collect);
+ 				function collect(){
+ 					sun.visible=false;
+ 					num++;
+ 					n--;
+ 					//console.log(num);
+ 				}
+ 				
+ 				Sun_List.push(sun);
+ 				n++;
+ 				t=0;
+ 				
+ 			}	
+ 			t++
+		}
+ 		function sun_move(){
+ 			for(var i=Sun_List.length-1;i>=0;i--) {
+       			var sun = Sun_List[i];
+ 				if(sun.y<400){
+ 					sun.y+=1;
+ 				}
+ 			}
+ 		}
+ 		var z=0;
+ 		var t2=1500;
+        var Zom_List=[];
+        function zombie_set(){
+        	
+        	if(t2==3000){
+        		var Zom=[];
+        		for(var i=0;i<=21;i++){
+        			Zom.push("res/Zombie_move/z"+i+".png");
+        		}
+        		var Zombie =PIXI.extras.AnimatedSprite.fromImages(Zom);
+        		
+        		Zombie.anchor.set(0.5,0.8);
+        		Zombie.x=850;
+        		Zombie.y=(y[0]+y[1])/2;
+        		
+        		app.stage.addChild(Zombie);
+        		
+ 				Zombie.animationSpeed = 0.15;
+ 				Zombie.play();
+ 				
+ 				Zom_List.push(Zombie);
+ 				
+ 				z++;
+ 				t2=0;
+ 				//console.log("ZZZZ");
+        	}
+        	//console.log(t2);
+        	t2++;
+        }
+        var shoot=false;
+        function zombie_move(){
+        	for(var i=Zom_List.length-1;i>=0;i--){
+        		var zom=Zom_List[i];
+        		if(zom.x>-100)zom.x-=0.08;
+        		if(zom.x<800){
+        			shoot=true;
+        			//console.log(zom.x);
+        			//console.log(Zom_List.length);
+        			}
+        		else {
+        			shoot=false;
+        		}
+
+        	}
+        	
+        }
+        var Pea_List=[];
+        var s=0
+        function pea_shoot(){
+        	if(shoot===true){
+        		if(s==180){
+        		for (var i=plant_list.length-1;i>=0;i--){
+        			var shooter=plant_list[i];
+        			
+        			var pea = PIXI.Sprite.fromImage("res/ProjectilePea.png");
+        			pea.anchor.set(0.5,0.5);
+        			
+        			pea.x=shooter.x+5;
+        			pea.y=shooter.y-18;
+        			app.stage.addChild(pea);
+        			
+        			Pea_List.push(pea);
+        			
+        			s=0;
+        			console.log("S");
+        		}
+        	}
+        	s++;
+        	}
+        }
+        function pea_move(){
+        	for (var i=Pea_List.length-1;i>=0;i--){
+        		var pea=Pea_List[i];
+        		pea.x+=5;
+        	}
+        }
+        var Death_List=[];
+       
+        var h=0;
+        function hit(){
+        	
+        	for(var i=0;i<Pea_List.length;i++){
+        		var pea= Pea_List[i];
+        		for(var k=0;k<Zom_List.length;k++){
+        			var zom= Zom_List[k];
+        			
+        			if(zom.x-pea.x<=10){
+        				app.stage.removeChild(pea);
+        				Pea_List.splice(i,1);
+        				h++;
+        				//console.log(h);
+        				break;
+        			}
+        			if(h>=20){
+        				app.stage.removeChild(zom);
+        				Zom_List.splice(k,1);
+        				console.log(Zom_List.length);
+        				h=0;
+        				shoot=false;
+        				break;
+        			}
+        			
+        			
+        		}
+        	}
+        }
+       
+        function garss_initialization(){
+        	
+        	grass.x=20;
+        	grass.y=260;
+        	grass.width=0;
+        	grass.anchor.x = 0;
+        	grass.visible=false;
+        	
+        	sodroll.anchor.y=0.5;
+        	sodroll.anchor.x=0.5;
+        	sodroll.x=5;
+        	sodroll.scale.x=1;
+        	sodroll.scale.y=0.8;
+        	sodroll.visible=false;
+        	
+        	SodRollCap.anchor.x=0.5;
+        	SodRollCap.anchor.y=0.5;
+        	SodRollCap.y=sodroll.y+70;
+        
+        	//grass.anchor.y = 0.5;
+        }
+        function grass_row(){
+        	if(grass.width<=771){
+        		grass.width+=3;
+        		sodroll.x+=3;
+        		sodroll.y=310;
+        		sodroll.scale.x-=1/350;
+        		SodRollCap.scale.y-=1/350;
+        	}
+        	
+      		grass.visible=true;
+      		sodroll.visible=true;
+      		if(sodroll.x>750)sodroll.visible=false;
+        }
+        function bg_move1(){
+			if(bg_guarden.x>-500){
+				bg_guarden.x-=2;
+			}
+        }
+        function bg_move2(){
+        	if(bg_guarden.x<-220){
+				bg_guarden.x+=2;
+			}
+        }
+        
+		
+		var R=0;
+		function start_ready(){
+			ready.anchor.set(0.5,0.5);
+			set.anchor.set(0.5,0.5);
+			Plant.anchor.set(0.5,0.5);
+			
+			ready.x=400;
+			ready.y=300;
+			set.x=400;
+			set.y=300;
+			Plant.x=400;
+			Plant.y=300;
+			readysetplant.play();
+			if(R==60){
+				ready.visible=true;
+
+			}
+			if(R==120){
+				ready.visible=false;
+				set.visible=true;	
+				
+			}
+			if(R==180){
+				set.visible=false;
+				Plant.visible=true;
+				//readysetplant.play();
+			}
+
+			R++;
+		}
+		
+        Logo();
+        title_screen();
+        bg_initialization();
+        garss_initialization();
+        
+		app.ticker.add(animate);
+		
+		function animate(){
+			var b;
+			a++;
+			if(a>60&&a<120){
+				PopCap_Logo.alpha+=1/60;
+			}
+			if(a>140&&a<200){
+				PopCap_Logo.alpha-=1/60;
+			}
+			if(a>240&&a<420){
+				app.stage.removeChild(PopCap_Logo);
+				app.stage.removeChild(bg_black);
+				title_screen_load();
+			}
+			if(a==420){
+				LoadBar_RollCap.visible=false;
+				Click_To_Start.visible=true;
+			}
+			if(Enter==1){
+				if(SelectorScreen_back.y>0)SelectorScreen_back.y-=1;
+				if(SelectorScreen_left.y>-50)SelectorScreen_left.y-=1.25;
+        		if(SelectorScreen_front.y>0)SelectorScreen_front.y-=5;
+			}
+			if(Enter==2){
+				if(Zombie_hand.y>240)Zombie_hand.y-=8;
+				else{
+					Enter=3;
+					a=0;
+				}
+				if(Zombie_hand_rock.height<60) {
+					Zombie_hand_rock.height+=2;
+					Zombie_hand_rock.width+=10;
+					
+				}	
+				if(Zombie_hand_rock.y>-70)Zombie_hand_rock.y-=1.5;
+
+			}
+			if(a==400&&Enter==3){
+				Select.play();
+				remove_selector();
+			}
+			if(a>600&&a<900&&Enter==3){	
+				bg_move1();
+			}
+			if(a>1200&&a<1400&&Enter==3)bg_move2();
+			if(a>1400&&a<=1760&&Enter==3){
+				grass_row();
+				//start_ready();
+					
+			}
+			if(a>1760&&a<2000&&Enter==3)start_ready();
+			if(a==2000&&Enter==3){
+				Plant.visible=false;
+				day.play();
+				Select.pause();
+				begin();
+			}
+			if(a>2000&&Enter==3){
+				sun_fall();
+				sun_move();
+				zombie_move();
+				zombie_set();
+				pea_shoot();
+				pea_move();
+				hit();
+				reset();
+			}
+			sun_number();
+			
+			
+
+			//console.log(a);
+			//console.log(a-b);
+		}
+		
+    </script>
+	</div>
+</body>
+</html>
